@@ -221,7 +221,7 @@ class Resize(object):
     """
 
     def __init__(self, size, interpolation=Image.BILINEAR, match_big=False):
-        assert isinstance(size, int) or (isinstance(size, collections.Iterable) and len(size) == 2)
+        assert isinstance(size, int) or ((isinstance(size, tuple) or isinstance(size, list)) and len(size) == 2)
         self.size = size
         self.interpolation = interpolation
         self.match_big = match_big
@@ -310,7 +310,8 @@ class Pad(object):
         assert isinstance(padding, (numbers.Number, tuple))
         assert isinstance(fill, (numbers.Number, str, tuple))
         assert padding_mode in ['constant', 'edge', 'reflect', 'symmetric', 'square_constant']
-        if isinstance(padding, collections.Sequence) and len(padding) not in [2, 4] and padding_mode is not 'square_constant':
+        if (isinstance(padding, tuple) or isinstance(padding, list)) \
+                and len(padding) not in [2, 4] and padding_mode is not 'square_constant':
             raise ValueError("Padding must be an int or a 2, or 4 element tuple, not a " +
                              "{} element tuple".format(len(padding)))
 

@@ -4,7 +4,6 @@ import torch
 from torch import Tensor
 from typing import Type, Any, Callable, Union, List, Optional
 from torchvision.models.resnet import BasicBlock, Bottleneck, ResNet, conv1x1
-from torchvision.models.utils import load_state_dict_from_url
 
 
 class PolarPadder(nn.Module):

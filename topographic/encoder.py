@@ -23,7 +23,7 @@ class ITNEncoder(nn.Module):
     def __init__(self, encoder_id='resnet18', base_fn=None, no_stride=False,
                 im_dim=224, polar=False, logpolar=False, centercrop_train=False,
                 dataset_name='objfacescenes', num_workers=6, batch_size=64,
-                optim_name='sgd', schedule='plateau', patience=2, 
+                optim_name='sgd', schedule='plateau', patience=2, device='cuda',
     ):
         super().__init__()
         self.base_fn = base_fn
@@ -36,7 +36,7 @@ class ITNEncoder(nn.Module):
             raise NotImplementedError()   
         self.get_optimizer(optim_name=optim_name, schedule=schedule, patience=patience)
 
-        self.encoder.to('cuda')
+        self.encoder.to(device)
 
     def forward(self, inputs, *args, **kwargs):
         return self.encoder(inputs, *args, **kwargs)
@@ -141,7 +141,7 @@ class ResNetEncoder(BaseEncoder):
                 nn.ReLU(),
             )
     
-    def _forward_impl(self, x, return_layers=[], out_device='cuda'):
+    def _forward_impl(self, x, return_layers=[], out_device='cpu'):
         # See note [TorchScript super()]
         x_out = {}
         x = self.encoder.conv1(x)

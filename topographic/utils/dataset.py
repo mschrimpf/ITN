@@ -189,7 +189,8 @@ def get_dataset(dataset_name, phase,
                 #print(f'did not find {dataset_name} in {folder}')
                print(e) 
                continue
-        n_classes = len(np.unique(image_dataset.classes))
+        n_classes = 100  # len(np.unique(image_dataset.classes))
+        image_dataset = None
     elif 'ims-per-class' in dataset_name.lower() or dataset_name.lower() in ['vpnl_floc', 'konk_floc', 'konk_animsize_texform', 'baotsao_floc']:
         for folder in [SCRATCH_DIR, ims_dir]:
             try:
@@ -201,8 +202,9 @@ def get_dataset(dataset_name, phase,
                 break
             except:
                 # print(f'did not find {dataset_name} in {folder}')
+                image_dataset = None
                 continue
-        n_classes = len(np.unique(image_dataset.classes))
+        n_classes = 100 # len(np.unique(image_dataset.classes))
     elif dataset_name.lower() == 'nsd_shared1000':
         if n_earlier_classes > 0:
             raise NotImplementedError()
@@ -232,7 +234,7 @@ def get_dataset(dataset_name, phase,
             gab_transforms = None
         thetas = list(np.linspace(0,180,10))
         target_transform = transforms.Lambda(lambda x: thetas.index(x['theta'])) # just return the theta parameter for discrimination
-        image_dataset = GaborDataset(thetas=thetas, 
+        image_dataset = GaborDataset(thetas=thetas,
                             sigmas=np.linspace(0.1,1,10), 
                             pxs=np.linspace(0,1,10), 
                             pys=np.linspace(0,1,10), 
@@ -343,11 +345,11 @@ def get_multi_dataset_loaders(datasets, data_transforms,
                 )
             dsets.append(dset)
             n_class_accum += n_classes
-        full_dsets[phase] = data.dataset.ConcatDataset(dsets)
-    dataloaders = {x: data.DataLoader(full_dsets[x], batch_size=batch_size,
-                                      shuffle=True if x == 'train' else False,
-                                      pin_memory=True,
-                                      num_workers=num_workers) for x in phases}
+        # full_dsets[phase] = data.dataset.ConcatDataset(dsets)
+    dataloaders = None  # {x: data.DataLoader(full_dsets[x], batch_size=batch_size,
+                                      # shuffle=True if x == 'train' else False,
+                                      # pin_memory=True,
+                                      # num_workers=num_workers) for x in phases}
     if return_n_classes:
         return dataloaders, n_class_accum
     else:

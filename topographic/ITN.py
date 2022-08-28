@@ -757,6 +757,7 @@ class EncoderITN(BaseITN):
                 im_dim=im_dim,
                 polar=polar,
                 dataset_name=trainset,
+                device=kwargs['device'],
                 )
 
             final_block = getattr(self.encoder.encoder.encoder, last_block_info[0])

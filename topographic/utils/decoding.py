@@ -1,7 +1,7 @@
 import numpy as np
-import nilearn.decoding
-from nilearn.image import index_img, new_img_like
-import nibabel as nib
+# import nilearn.decoding
+# from nilearn.image import index_img, new_img_like
+# import nibabel as nib
 from scipy.io import loadmat
 from scipy.special import logit
 from scipy.stats import norm
@@ -9,7 +9,7 @@ import os
 import pdb
 import sklearn
 import sklearn.pipeline
-import nilearn.decoding
+# import nilearn.decoding
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
